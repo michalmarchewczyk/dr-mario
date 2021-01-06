@@ -1,0 +1,182 @@
+@import "./debug";
+@import "./main";
+
+.stageContainer {
+  @include debug-outline;
+  @include debug-bg;
+  @include pixelated;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 640px;
+  height: 384px;
+
+  .stageGrid {
+    @include debug-outline;
+    @include debug-text;
+    position: absolute;
+    width: 160px;
+    height: 288px;
+    left: 256px;
+    top: 80px;
+
+    .stageGridCell {
+      //@include debug-border;
+      position: absolute;
+      width: 16px;
+      height: 16px;
+    }
+
+    .cellSprite {
+      @include debug-border;
+      //@include debug-bg;
+      position: absolute;
+      width: 16px;
+      height: 16px;
+
+      &.virus {
+        &.virusBrown {
+          background-image: url('../images/covid_brown.png');
+        }
+        &.virusBlue {
+          background-image: url('../images/covid_blue.png');
+        }
+        &.virusYellow {
+          background-image: url('../images/covid_yellow.png');
+        }
+      }
+      &.virus.toDestroy {
+
+        &.virusBrown {
+          background-image: url('../images/br_x.png');
+        }
+        &.virusBlue {
+          background-image: url('../images/bl_x.png');
+        }
+        &.virusYellow {
+          background-image: url('../images/yl_x.png');
+        }
+
+      }
+
+
+      &.pillCell {
+        @include pixelated;
+
+        &.pillCellBrown {
+          background-image: url('../images/br_dot.png');
+          &.pillCellRight {
+            background-image: url('../images/br_left.png');
+          }
+          &.pillCellLeft {
+            background-image: url('../images/br_right.png');
+          }
+          &.pillCellUp {
+            background-image: url('../images/br_down.png');
+          }
+          &.pillCellDown {
+            background-image: url('../images/br_up.png');
+          }
+        }
+        &.pillCellBlue {
+          background-image: url('../images/bl_dot.png');
+          &.pillCellRight {
+            background-image: url('../images/bl_left.png');
+          }
+          &.pillCellLeft {
+            background-image: url('../images/bl_right.png');
+          }
+          &.pillCellUp {
+            background-image: url('../images/bl_down.png');
+          }
+          &.pillCellDown {
+            background-image: url('../images/bl_up.png');
+          }
+        }
+        &.pillCellYellow {
+          background-image: url('../images/yl_dot.png');
+          &.pillCellRight {
+            background-image: url('../images/yl_left.png');
+          }
+          &.pillCellLeft {
+            background-image: url('../images/yl_right.png');
+          }
+          &.pillCellUp {
+            background-image: url('../images/yl_down.png');
+          }
+          &.pillCellDown {
+            background-image: url('../images/yl_up.png');
+          }
+        }
+        &.toDestroy {
+          &.pillCellBrown {
+            background-image: url('../images/br_o.png');
+          }
+          &.pillCellBlue {
+            background-image: url('../images/bl_o.png');
+          }
+          &.pillCellYellow{
+            background-image: url('../images/yl_o.png');
+          }
+        }
+      }
+    }
+
+
+
+    .pillSprite {
+      //@include debug-border;
+      position: absolute;
+      width: 16px;
+      height: 16px;
+
+      .pillPart {
+        position: absolute;
+        width: 16px;
+        height: 16px;
+        @include pixelated;
+      }
+
+      &.pillRight {
+        .pillPartBrown.pillPartA {
+          background-image: url('../images/br_left.png');
+        }
+        .pillPartBlue.pillPartA  {
+          background-image: url('../images/bl_left.png');
+        }
+        .pillPartYellow.pillPartA  {
+          background-image: url('../images/yl_left.png');
+        }
+        .pillPartBrown.pillPartB {
+          background-image: url('../images/br_right.png');
+        }
+        .pillPartBlue.pillPartB  {
+          background-image: url('../images/bl_right.png');
+        }
+        .pillPartYellow.pillPartB  {
+          background-image: url('../images/yl_right.png');
+        }
+      }
+      &.pillTop {
+        .pillPartBrown.pillPartA {
+          background-image: url('../images/br_down.png');
+        }
+        .pillPartBlue.pillPartA  {
+          background-image: url('../images/bl_down.png');
+        }
+        .pillPartYellow.pillPartA  {
+          background-image: url('../images/yl_down.png');
+        }
+        .pillPartBrown.pillPartB {
+          background-image: url('../images/br_up.png');
+        }
+        .pillPartBlue.pillPartB  {
+          background-image: url('../images/bl_up.png');
+        }
+        .pillPartYellow.pillPartB  {
+          background-image: url('../images/yl_up.png');
+        }
+      }
+    }
+  }
+}

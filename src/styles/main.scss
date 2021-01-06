@@ -1,0 +1,33 @@
+@font-face {
+  font-family: atari-font1;
+  src: url(atari-font1.ttf);
+}
+
+@font-face {
+  font-family: atari-antic;
+  src: url(atari-antic.ttf);
+}
+
+@mixin pixelated {
+  -ms-interpolation-mode: nearest-neighbor;
+  image-rendering: crisp-edges;
+  image-rendering: pixelated;
+}
+
+
+body {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+* {
+  //font-family: atari-font1, sans-serif;
+  //font-size: 40px;
+  font-size: 8px;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}

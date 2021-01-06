@@ -1,0 +1,27 @@
+$debug: true;
+
+@mixin debug-outline {
+  @if $debug {
+    outline: 2px solid blue;
+  }
+}
+
+@mixin debug-border {
+  @if $debug {
+    border: 0.1px solid red;
+  }
+}
+
+@mixin debug-bg {
+  @if $debug {
+    background-image: none !important;
+  }
+}
+
+
+@mixin debug-text {
+  @if not $debug {
+    color: transparent !important;
+    text-indent: -9999px !important;
+  }
+}
