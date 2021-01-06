@@ -19,6 +19,10 @@ const sleep = async (ms) => {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+const create2dArray = (x, y) => {
+    return new Array(x).fill(null).map(() => new Array(y).fill(null));
+}
+
 const transpose = (array) => {
     return array[0].map((col, colIndex) => array.map(row => row[colIndex]));
 }
@@ -42,12 +46,6 @@ const findSubarrays = (array, min, filter) => {
     return res;
 }
 
-//
-// let test = [0,0,0,0,0,1,1,0,1,0,1,1,1,1,0,0,1,1,1,1,1,1,0,0,1,0,1,0,1,1,1,0,1,1,1,1,1,1];
-//
-// console.log(test);
-// console.log(findSubarrays(test, 4, el => el === 1));
-
 
 export {
     getRandomInteger,
@@ -55,5 +53,6 @@ export {
     mapIntToColor,
     sleep,
     transpose,
-    findSubarrays
+    findSubarrays,
+    create2dArray,
 }

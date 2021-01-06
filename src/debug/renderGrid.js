@@ -18,8 +18,6 @@ const renderGrid = (size = 32, opacity = 0.4) => {
             cell.style.height = size + 'px';
             cell.style.top = y*size + 'px';
             cell.style.left = x*size + 'px';
-            // cell.style.borderRight = '1px solid black';
-            // cell.style.borderBottom = '1px solid black';
             cell.style.border = '1px solid black';
             grid.appendChild(cell);
         }
