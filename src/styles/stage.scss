@@ -11,6 +11,28 @@
   width: 640px;
   height: 384px;
 
+
+  .drImage {
+    @include debug-outline;
+    @include debug-bg;
+    position: absolute;
+    width: 96px;
+    height: 112px;
+    top: 48px;
+    left: 480px;
+
+    &::before {
+      content: "";
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('../images/dr.png');
+    }
+  }
+
   .stageGrid {
     @include debug-outline;
     @include debug-text;

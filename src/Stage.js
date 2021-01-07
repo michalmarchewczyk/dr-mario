@@ -1,6 +1,9 @@
 import KeyboardController from './KeyboardController';
 import './styles/stage.scss';
 import bg1 from './images/bg1.png';
+import dr_up from './images/dr_up.png';
+import dr_mid from './images/dr_mid.png';
+import dr_down from './images/dr_down.png';
 import {
 	create2dArray,
 	findSubarrays,
@@ -35,6 +38,11 @@ export default class Stage {
 		this.container = document.createElement('div');
 		this.container.classList.add('stageContainer');
 		this.container.style.backgroundImage = `url(${bg1})`;
+		
+		this.drImage = document.createElement('div');
+		this.drImage.classList.add('drImage');
+		this.drImage.style.backgroundImage = `url(${dr_up})`;
+		this.container.appendChild(this.drImage);
 	}
 	
 	render() {
@@ -346,11 +354,11 @@ export default class Stage {
 			{pill: {x: 14, y: -2, rot: 1}},
 			{pill: {x: 13, y: -3, rot: 0}, swap: true},
 			{pill: {x: 13, y: -3, rot: 1}},
-			{pill: {x: 12, y: -4, rot: 0}, swap: true},
+			{pill: {x: 12, y: -4, rot: 0}, swap: true, img: dr_mid},
 			{pill: {x: 12, y: -4, rot: 1}},
 			{pill: {x: 11, y: -4, rot: 0}, swap: true},
 			{pill: {x: 11, y: -4, rot: 1}},
-			{pill: {x: 10, y: -4, rot: 0}, swap: true},
+			{pill: {x: 10, y: -4, rot: 0}, swap: true, img: dr_down},
 			{pill: {x: 10, y: -4, rot: 1}},
 			{pill: {x: 9, y: -4, rot: 0}, swap: true},
 			{pill: {x: 9, y: -4, rot: 1}},
@@ -365,7 +373,7 @@ export default class Stage {
 			{pill: {x: 4, y: -3, rot: 0}, swap: true},
 			{pill: {x: 4, y: -2, rot: 0}},
 			{pill: {x: 4, y: -1, rot: 0}},
-			{pill: {x: 4, y: 0, rot: 0}},
+			{pill: {x: 4, y: 0, rot: 0}, img: dr_up},
 		];
 		
 		for (let i = 0; i < frames.length; i++) {
@@ -375,6 +383,9 @@ export default class Stage {
 			}
 			this.pill = {...this.pill, ...frame.pill};
 			this.draw();
+			if(frame.img){
+				this.drImage.style.backgroundImage = `url(${frame.img})`;
+			}
 			await sleep(ANIM_FRAME);
 		}
 	}
@@ -473,12 +484,11 @@ export default class Stage {
 			
 			this.draw();
 			
-			await sleep(200);
+			await sleep(100);
 			
 			await this.drop();
 		}
 	}
-	
 	
 	async drop() {
 		
@@ -531,7 +541,7 @@ export default class Stage {
 			
 			this.draw();
 			
-			await sleep(100);
+			await sleep(40);
 		}
 		
 		if (checkDestroy) {
