@@ -3,6 +3,7 @@ import '../styles/stage.scss';
 import dr_up from '../images/dr_up.png';
 import dr_mid from '../images/dr_mid.png';
 import dr_down from '../images/dr_down.png';
+import dr_go from '../images/dr_go.png';
 import {
 	create2dArray,
 	findSubarrays,
@@ -624,6 +625,10 @@ export default class Stage {
 			this.losePopup.classList.add('losePopup');
 			this.losePopup.classList.add(`losePopup-${this.bg}`);
 			this.container.appendChild(this.losePopup);
+			
+			this.drImage.style.backgroundImage = `url(${dr_go})`;
+			this.drImage.classList.add('drImageGO');
+			this.nextPill = null;
 			
 			this.keyboardController.clearListeners();
 			this.keyboardController.addListener('Enter', 'up', () => {
