@@ -156,6 +156,7 @@ export default class Game {
     
     startGame() {
         this.currentLevel = this.selectedLvl;
+        this.currentScore = 0;
         this.startStage();
     }
     
