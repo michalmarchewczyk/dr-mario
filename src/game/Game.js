@@ -8,6 +8,8 @@ import Counter from '../utils/Counter';
 import select_lvl from '../images/menu_select_lvl.png';
 import select_speed from '../images/menu_select_speed.png';
 import select_music from '../images/menu_select_music.png';
+import StorageVariable from '../utils/StorageVariable';
+import {sleep} from '../utils/utils';
 
 export default class Game {
     constructor() {
@@ -16,6 +18,8 @@ export default class Game {
         this.viewIntro();
         this.selectedLvl = 0;
         this.selectedSpeed = 0;
+        this.currentScore = 0;
+        this.topScore = new StorageVariable('topScore', 100);
     }
     
     setupContainer() {
@@ -27,7 +31,7 @@ export default class Game {
         return this.container;
     }
     
-    viewIntro() {
+    async viewIntro() {
         this.container.style.backgroundImage = `url(${bg_intro})`;
         this.container.style.backgroundPosition = '-18px -50px';
         let selectedMultiplayer = false;
@@ -39,6 +43,7 @@ export default class Game {
         }else{
             multiplayerArrow.style.top = '240px';
         }
+        await sleep(200);
         this.keyboardController.addListener('ArrowDown', 'down', () => {
             selectedMultiplayer = !selectedMultiplayer;
             if(selectedMultiplayer){
@@ -55,23 +60,21 @@ export default class Game {
                 multiplayerArrow.style.top = '240px';
             }
         })
-        this.keyboardController.addListener('Enter', 'down', () => {
+        this.keyboardController.addListener('Enter', 'up', () => {
             this.viewMenu();
         })
-        this.keyboardController.addListener('ArrowRight', 'down', () => {
+        this.keyboardController.addListener('ArrowRight', 'up', () => {
             this.viewMenu();
         })
     }
     
     
-    viewMenu() {
+    async viewMenu() {
         this.keyboardController.clearListeners();
+        this.keyboardController.focus();
         this.container.innerHTML = '';
         this.container.style.backgroundImage = `url(${bg_menu})`;
         this.container.style.backgroundPosition = '0 0';
-        this.keyboardController.addListener('Enter', 'down', () => {
-            this.startGame();
-        })
         
         this.selectedControl = 0;
         this.selectArrow = document.createElement('div');
@@ -92,16 +95,6 @@ export default class Game {
         }
 
         updateSelect();
-    
-        this.keyboardController.addListener('ArrowDown', 'down', () => {
-            this.selectedControl = Math.min(2, this.selectedControl + 1);
-            updateSelect();
-        });
-    
-        this.keyboardController.addListener('ArrowUp', 'down', () => {
-            this.selectedControl = Math.max(0, this.selectedControl - 1);
-            updateSelect();
-        });
         
         this.lvlCounter = new Counter(2, this.selectedLvl);
         this.lvlCounter.el.classList.add('lvlCounter');
@@ -112,6 +105,27 @@ export default class Game {
         this.lvlArrow.style.left = 160 + this.selectedLvl * 16 + 'px';
         this.container.appendChild(this.lvlArrow);
         
+        this.speedArrow = document.createElement('div');
+        this.speedArrow.classList.add('speedArrow');
+        this.speedArrow.style.left = 224 + this.selectedSpeed * 96 + 'px';
+        this.container.appendChild(this.speedArrow);
+    
+        await sleep(200);
+    
+        this.keyboardController.addListener('Enter', 'up', () => {
+            this.startGame();
+        })
+        
+        this.keyboardController.addListener('ArrowDown', 'down', () => {
+            this.selectedControl = Math.min(2, this.selectedControl + 1);
+            updateSelect();
+        });
+    
+        this.keyboardController.addListener('ArrowUp', 'down', () => {
+            this.selectedControl = Math.max(0, this.selectedControl - 1);
+            updateSelect();
+        });
+    
         this.keyboardController.addListener('ArrowRight', 'down', () => {
             if(this.selectedControl !== 0) return;
             this.selectedLvl = Math.min(20, this.selectedLvl + 1);
@@ -125,12 +139,7 @@ export default class Game {
             this.lvlArrow.style.left = 160 + this.selectedLvl * 16 + 'px';
             this.lvlCounter.set(this.selectedLvl);
         });
-    
-        this.speedArrow = document.createElement('div');
-        this.speedArrow.classList.add('speedArrow');
-        this.speedArrow.style.left = 224 + this.selectedSpeed * 96 + 'px';
-        this.container.appendChild(this.speedArrow);
-
+        
         this.keyboardController.addListener('ArrowRight', 'down', () => {
             if(this.selectedControl !== 1) return;
             this.selectedSpeed = Math.min(2, this.selectedSpeed + 1);
@@ -155,8 +164,22 @@ export default class Game {
         this.keyboardController.clearListeners();
         this.container.innerHTML = '';
         let level = LEVELS[this.currentLevel];
-        // let stage = new Stage(level.id, level.viruses, this.selectedSpeed, level.bg, level.bgImg);
-        let stage = new Stage(level.id, 1, this.selectedSpeed, level.bg, level.bgImg);
+        let stage = new Stage(level.id, level.viruses, this.selectedSpeed, level.bg, level.bgImg, this.currentScore, this.topScore.value, this.stageWin.bind(this), this.stageLose.bind(this));
+        // let stage = new Stage(level.id, 1, this.selectedSpeed, level.bg, level.bgImg, this.currentScore, this.topScore.value, this.stageWin.bind(this), this.stageLose.bind(this));
         this.container.appendChild(stage.render());
+    }
+    
+    
+    stageWin(score) {
+        this.currentScore += score;
+        this.currentLevel += 1;
+        this.startStage();
+    }
+    
+    
+    stageLose(score) {
+        this.currentScore += score;
+        this.topScore.value = Math.max(this.topScore.value, this.currentScore);
+        this.viewMenu();
     }
 }

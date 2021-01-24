@@ -61,4 +61,8 @@ export default class KeyboardController {
     clearListeners(){
         this.listeners = [];
     }
+    
+    focus() {
+        this.attach.focus();
+    }
 }

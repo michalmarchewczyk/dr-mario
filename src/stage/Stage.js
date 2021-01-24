@@ -20,7 +20,7 @@ import speed_hi from '../images/speed_hi.png';
 
 export default class Stage {
 	
-	constructor(id, num, speed, bg, bgImg) {
+	constructor(id, num, speed, bg, bgImg, score, topScore, stageWin, stageLose) {
 		if (num > 88) {
 			throw new Error('Number of viruses cannot be bigger than 88');
 		}
@@ -31,6 +31,10 @@ export default class Stage {
 		this.fallInterval = [600, 400, 200][this.speed];
 		this.cells = [];
 		this.score = 0;
+		this.baseScore = score;
+		this.topScore = topScore;
+		this.stageWin = stageWin;
+		this.stageLose = stageLose;
 		this.bg = bg;
 		this.bgImg = bgImg;
 		this.end = false;
@@ -40,7 +44,6 @@ export default class Stage {
 		this.setupBoard();
 		this.setupThrow();
 		setTimeout(async () => {
-			console.log('throw');
 			await this.throw();
 		}, 1000);
 	}
@@ -68,11 +71,11 @@ export default class Stage {
 		this.virusCounter.el.classList.add('virusCounter');
 		this.container.appendChild(this.virusCounter.render());
 		
-		this.topCounter = new Counter(7, 0);
+		this.topCounter = new Counter(7, this.topScore);
 		this.topCounter.el.classList.add('topCounter');
 		this.container.appendChild(this.topCounter.render());
 		
-		this.scoreCounter = new Counter(7, 0);
+		this.scoreCounter = new Counter(7, this.baseScore + this.score);
 		this.scoreCounter.el.classList.add('scoreCounter');
 		this.container.appendChild(this.scoreCounter.render());
 	}
@@ -161,7 +164,6 @@ export default class Stage {
 	}
 	
 	movePillLeft() {
-		console.log('Move Left');
 		if (!this.pill?.control) return;
 		
 		const {x, y, rot} = this.pill;
@@ -176,7 +178,6 @@ export default class Stage {
 	}
 	
 	movePillRight() {
-		console.log('Move Right');
 		if (!this.pill?.control) return;
 		
 		const {x, y, rot} = this.pill;
@@ -192,7 +193,6 @@ export default class Stage {
 	}
 	
 	rotatePillLeft() {
-		console.log('Rotate Left');
 		if (!this.pill?.control) return;
 		
 		const {x, y, rot} = this.pill;
@@ -216,7 +216,6 @@ export default class Stage {
 	}
 	
 	rotatePillRight() {
-		console.log('Rotate Right');
 		if (!this.pill?.control) return;
 		
 		const {x, y, rot} = this.pill;
@@ -240,7 +239,6 @@ export default class Stage {
 	}
 	
 	movePillDown() {
-		console.log('Move Down');
 		if (!this.pill.control) return;
 		
 		clearInterval(this.pill.interval);
@@ -599,7 +597,7 @@ export default class Stage {
 		this.viruses = viruses.length;
 		this.virusCounter.set(this.viruses);
 		this.score = (this.num - this.viruses) * 100;
-		this.scoreCounter.set(this.score);
+		this.scoreCounter.set(this.baseScore + this.score);
 	}
 	
 	checkWin() {
@@ -612,8 +610,8 @@ export default class Stage {
 			this.container.appendChild(this.winPopup);
 			
 			this.keyboardController.clearListeners();
-			this.keyboardController.addListener('Enter', 'down', () => {
-				// win
+			this.keyboardController.addListener('Enter', 'up', () => {
+				this.stageWin(this.score);
 			});
 		}
 	}
@@ -628,8 +626,8 @@ export default class Stage {
 			this.container.appendChild(this.losePopup);
 			
 			this.keyboardController.clearListeners();
-			this.keyboardController.addListener('Enter', 'down', () => {
-				// lose
+			this.keyboardController.addListener('Enter', 'up', () => {
+				this.stageLose(this.score);
 			});
 		}
 	}
