@@ -7,7 +7,12 @@ export default class KeyboardController {
     }
     
     setup() {
-        this.attach.tabIndex = -1;
+        this.attach.tabIndex = 0;
+        this.attach.autofocus = true;
+        this.attach.focus();
+        window.requestAnimationFrame(() => {
+            this.attach.focus()
+        })
         this.attach.addEventListener('keydown', (e) => {
             e.preventDefault();
             // console.log(e.key);
@@ -51,5 +56,9 @@ export default class KeyboardController {
             callback,
             type
         });
+    }
+    
+    clearListeners(){
+        this.listeners = [];
     }
 }
