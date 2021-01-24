@@ -1,9 +1,8 @@
-import KeyboardController from './KeyboardController';
-import './styles/stage.scss';
-import bg1 from './images/bg1.png';
-import dr_up from './images/dr_up.png';
-import dr_mid from './images/dr_mid.png';
-import dr_down from './images/dr_down.png';
+import KeyboardController from '../utils/KeyboardController';
+import '../styles/stage.scss';
+import dr_up from '../images/dr_up.png';
+import dr_mid from '../images/dr_mid.png';
+import dr_down from '../images/dr_down.png';
 import {
 	create2dArray,
 	findSubarrays,
@@ -12,17 +11,29 @@ import {
 	removeElementsByClass,
 	sleep,
 	transpose
-} from './utils';
+} from '../utils/utils';
+import Counter from '../utils/Counter';
+import speed_low from '../images/speed_low.png';
+import speed_med from '../images/speed_med.png';
+import speed_hi from '../images/speed_hi.png';
 
 
 export default class Stage {
 	
-	constructor(num) {
+	constructor(id, num, speed, bg, bgImg) {
 		if (num > 88) {
 			throw new Error('Number of viruses cannot be bigger than 88');
 		}
+		this.id = id;
 		this.num = num;
+		this.viruses = num;
+		this.speed = speed;
+		this.fallInterval = [600, 400, 200][this.speed];
 		this.cells = [];
+		this.score = 0;
+		this.bg = bg;
+		this.bgImg = bgImg;
+		this.end = false;
 		this.setupContainer();
 		this.setupGrid();
 		this.setupKeyboard();
@@ -37,12 +48,33 @@ export default class Stage {
 	setupContainer() {
 		this.container = document.createElement('div');
 		this.container.classList.add('stageContainer');
-		this.container.style.backgroundImage = `url(${bg1})`;
+		this.container.style.backgroundImage = `url(${this.bgImg})`;
 		
 		this.drImage = document.createElement('div');
 		this.drImage.classList.add('drImage');
 		this.drImage.style.backgroundImage = `url(${dr_up})`;
 		this.container.appendChild(this.drImage);
+		
+		this.lvlCounter = new Counter(2, this.id);
+		this.lvlCounter.el.classList.add('lvlCounter');
+		this.container.appendChild(this.lvlCounter.render());
+		
+		this.speedCounter = document.createElement('div');
+		this.speedCounter.classList.add('speedCounter');
+		this.speedCounter.style.backgroundImage = `url(${[speed_low, speed_med, speed_hi][this.speed]})`;
+		this.container.appendChild(this.speedCounter);
+		
+		this.virusCounter = new Counter(2, this.num);
+		this.virusCounter.el.classList.add('virusCounter');
+		this.container.appendChild(this.virusCounter.render());
+		
+		this.topCounter = new Counter(7, 0);
+		this.topCounter.el.classList.add('topCounter');
+		this.container.appendChild(this.topCounter.render());
+		
+		this.scoreCounter = new Counter(7, 0);
+		this.scoreCounter.el.classList.add('scoreCounter');
+		this.container.appendChild(this.scoreCounter.render());
 	}
 	
 	render() {
@@ -85,11 +117,12 @@ export default class Stage {
 	}
 	
 	setupViruses() {
+		// TODO: check if viruses dont eliminate themselves
 		for (let i = 0; i < this.num; i++) {
 			let found = false;
 			while (!found) {
 				let randX = getRandomInteger(1, 8);
-				let randY = getRandomInteger(6, 16);
+				let randY = getRandomInteger(5, 16);
 				if (!this.cells[randX][randY]) {
 					found = true;
 					this.cells[randX][randY] = {
@@ -215,7 +248,7 @@ export default class Stage {
 		
 		this.pill.interval = setInterval(async () => {
 			await this.fall();
-		}, 50);
+		}, 25);
 	}
 	
 	draw() {
@@ -326,6 +359,8 @@ export default class Stage {
 	}
 	
 	async throw() {
+		if(this.end) return;
+		
 		this.pill = {...this.nextPill};
 		this.nextPill = null;
 		
@@ -339,7 +374,7 @@ export default class Stage {
 			control: true,
 			interval: setInterval(() => {
 				this.fall();
-			}, 600),
+			}, this.fallInterval),
 		};
 		
 		this.draw();
@@ -347,7 +382,7 @@ export default class Stage {
 	}
 	
 	async animatePill() {
-		const ANIM_FRAME = 20;
+		const ANIM_FRAME = 25;
 		
 		const frames = [
 			{pill: {x: 14, y: -2, rot: 0}},
@@ -402,6 +437,8 @@ export default class Stage {
 			this.placePill();
 			
 			await this.destroy();
+			
+			this.checkLose();
 			
 			await this.throw();
 		} else {
@@ -484,6 +521,8 @@ export default class Stage {
 			
 			this.draw();
 			
+			this.countViruses();
+			
 			await sleep(100);
 			
 			await this.drop();
@@ -541,13 +580,57 @@ export default class Stage {
 			
 			this.draw();
 			
-			await sleep(40);
+			await sleep(25);
 		}
+		
+		this.checkWin();
+		
+		if(this.end) return;
 		
 		if (checkDestroy) {
 			await sleep(200);
 			await this.destroy();
 		}
 		
+	}
+	
+	countViruses() {
+		let viruses = this.cells.flat().filter(c => c?.type === 'virus');
+		this.viruses = viruses.length;
+		this.virusCounter.set(this.viruses);
+		this.score = (this.num - this.viruses) * 100;
+		this.scoreCounter.set(this.score);
+	}
+	
+	checkWin() {
+		if(this.viruses === 0){
+			this.end = true;
+			
+			this.winPopup = document.createElement('div');
+			this.winPopup.classList.add('winPopup');
+			this.winPopup.classList.add(`winPopup-${this.bg}`);
+			this.container.appendChild(this.winPopup);
+			
+			this.keyboardController.clearListeners();
+			this.keyboardController.addListener('Enter', 'down', () => {
+				// win
+			});
+		}
+	}
+	
+	checkLose() {
+		if(this.cells[4][1] || this.cells[5][1]){
+			this.end = true;
+			
+			this.losePopup = document.createElement('div');
+			this.losePopup.classList.add('losePopup');
+			this.losePopup.classList.add(`losePopup-${this.bg}`);
+			this.container.appendChild(this.losePopup);
+			
+			this.keyboardController.clearListeners();
+			this.keyboardController.addListener('Enter', 'down', () => {
+				// lose
+			});
+		}
 	}
 }

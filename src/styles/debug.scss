@@ -14,7 +14,7 @@ $debug: false;
 
 @mixin debug-bg {
   @if $debug {
-    background-image: none !important;
+    background: none !important;
   }
 }
 

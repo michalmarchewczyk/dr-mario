@@ -1,9 +1,8 @@
 "use strict";
 
 import './styles/main.scss';
-import Stage from './Stage';
+import Game from './game/Game';
 
+let game = new Game()
 
-let stage1 = new Stage(4);
-
-document.body.appendChild(stage1.render())
+document.body.appendChild(game.render())

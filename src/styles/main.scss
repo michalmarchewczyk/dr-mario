@@ -1,3 +1,5 @@
+@import "./debug";
+
 @font-face {
   font-family: atari-font1;
   src: url(atari-font1.ttf);
@@ -19,6 +21,10 @@ body {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+  min-width: 800px;
+  min-height: 500px;
+  background: black;
+  @include debug-bg;
 }
 
 * {

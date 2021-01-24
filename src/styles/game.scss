@@ -1,0 +1,86 @@
+@import "./debug";
+@import "./main";
+
+.gameContainer {
+  @include debug-outline;
+  //@include debug-bg;
+  @include pixelated;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 640px;
+  height: 384px;
+  margin-top: -220px;
+  margin-left: -320px;
+  outline: none;
+  border: none;
+
+  &::before {
+    @include debug-bg;
+    content: "";
+    display: block;
+    position: absolute;
+    width: 859px;
+    height: 720px;
+    top: -136px;
+    left: -108px;
+    background: black;
+    z-index: -1;
+    pointer-events: none !important;
+  }
+
+  &::after {
+    content: "";
+    @include debug-bg;
+    display: block;
+    position: absolute;
+    width: 859px;
+    height: 720px;
+    top: -136px;
+    left: -108px;
+    background-image: url("../images/crt.png");
+    pointer-events: none !important;
+  }
+
+  .multiplayerArrow {
+    display: block;
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    background-image: url("../images/arrow.png");
+    left: 160px;
+    top: 240px;
+  }
+
+  .lvlCounter {
+    top: 80px;
+    left: 496px;
+  }
+
+  .selectArrow {
+    display: block;
+    position: absolute;
+    left: 128px;
+    height: 48px;
+    width: 208px;
+    background-repeat: no-repeat;
+  }
+
+  .lvlArrow {
+    display: block;
+    position: absolute;
+    top: 96px;
+    width: 16px;
+    height: 16px;
+    background-image: url("../images/arrow.png");
+  }
+
+  .speedArrow {
+    display: block;
+    position: absolute;
+    top: 192px;
+    width: 16px;
+    height: 16px;
+    background-image: url("../images/arrow.png");
+  }
+}

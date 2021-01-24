@@ -3,14 +3,15 @@
 
 .stageContainer {
   @include debug-outline;
-  @include debug-bg;
+  //@include debug-bg;
   @include pixelated;
   position: absolute;
   top: 0;
   left: 0;
   width: 640px;
   height: 384px;
-
+  outline: none;
+  border: none;
 
   .drImage {
     @include debug-outline;
@@ -22,6 +23,7 @@
     left: 480px;
 
     &::before {
+      @include debug-bg;
       content: "";
       display: block;
       position: absolute;
@@ -30,6 +32,95 @@
       width: 100%;
       height: 100%;
       background-image: url('../images/dr.png');
+    }
+  }
+
+  .lvlCounter {
+    position: absolute;
+    display: block;
+    top: 240px;
+    left: 560px;
+    //background: blue;
+  }
+
+  .speedCounter {
+    position: absolute;
+    display: block;
+    top: 288px;
+    left: 560px;
+    width: 48px;
+    height: 16px;
+    background: blue;
+  }
+
+  .virusCounter {
+    position: absolute;
+    display: block;
+    top: 336px;
+    left: 560px;
+  }
+
+  .topCounter {
+    position: absolute;
+    display: block;
+    top: 80px;
+    left: 80px;
+  }
+
+  .scoreCounter {
+    position: absolute;
+    display: block;
+    top: 128px;
+    left: 80px;
+  }
+
+  .winPopup {
+    display: block;
+    position: absolute;
+    top: 144px;
+    left: 192px;
+    width: 288px;
+    height: 80px;
+
+    &.winPopup-1 {
+      background-image: url("../images/sc1.png");
+    }
+    &.winPopup-2 {
+      background-image: url("../images/sc2.png");
+    }
+    &.winPopup-3 {
+      background-image: url("../images/sc3.png");
+    }
+    &.winPopup-4 {
+      background-image: url("../images/sc4.png");
+    }
+    &.winPopup-5 {
+      background-image: url("../images/sc5.png");
+    }
+  }
+
+  .losePopup {
+    display: block;
+    position: absolute;
+    top: 144px;
+    left: 224px;
+    width: 224px;
+    height: 80px;
+
+    &.losePopup-1 {
+      background-image: url("../images/go1.png");
+    }
+    &.losePopup-2 {
+      background-image: url("../images/go2.png");
+    }
+    &.losePopup-3 {
+      background-image: url("../images/go3.png");
+    }
+    &.losePopup-4 {
+      background-image: url("../images/go4.png");
+    }
+    &.losePopup-5 {
+      background-image: url("../images/go5.png");
     }
   }
 
@@ -47,6 +138,7 @@
       position: absolute;
       width: 16px;
       height: 16px;
+      color: white;
     }
 
     .cellSprite {
