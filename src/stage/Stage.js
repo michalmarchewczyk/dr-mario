@@ -11,7 +11,8 @@ import {
 	mapIntToColor,
 	removeElementsByClass,
 	sleep,
-	transpose
+	transpose,
+	deepCopy
 } from '../utils/utils';
 import Counter from '../utils/Counter';
 import speed_low from '../images/speed_low.png';
@@ -22,8 +23,8 @@ import speed_hi from '../images/speed_hi.png';
 export default class Stage {
 	
 	constructor(id, num, speed, bg, bgImg, score, topScore, stageWin, stageLose) {
-		if (num > 88) {
-			throw new Error('Number of viruses cannot be bigger than 88');
+		if (num > 96) {
+			throw new Error('Number of viruses cannot be bigger than 96');
 		}
 		this.id = id;
 		this.num = num;
@@ -121,23 +122,70 @@ export default class Stage {
 	}
 	
 	setupViruses() {
-		// TODO: check if viruses dont eliminate themselves
-		for (let i = 0; i < this.num; i++) {
-			let found = false;
-			while (!found) {
-				let randX = getRandomInteger(1, 8);
-				let randY = getRandomInteger(5, 16);
-				if (!this.cells[randX][randY]) {
-					found = true;
-					this.cells[randX][randY] = {
-						x: randX,
-						y: randY,
-						type: 'virus',
-						color: i % 3,
-					};
+		let good = false;
+		
+		let newCells = deepCopy(this.cells);
+		
+		while(!good){
+			
+			newCells = deepCopy(this.cells);
+			
+			for (let i = 0; i < this.num; i++) {
+				let found = false;
+				while (!found) {
+					let randX = getRandomInteger(1, 8);
+					let randY = getRandomInteger(5, 16);
+					if (!newCells[randX][randY]) {
+						found = true;
+						newCells[randX][randY] = {
+							x: randX,
+							y: randY,
+							type: 'virus',
+							color: i % 3,
+						};
+					}
 				}
 			}
+			
+			let found = create2dArray(10, 18);
+			
+			for (let i = 0; i <= 9; i++) {
+				const col = newCells[i];
+				[0, 1, 2].forEach(n => {
+					let find = findSubarrays(col, 4, (el => el && el.color === n));
+					find.forEach((v, j) => found[i][j] = v ? 1 : found[i][j]);
+				});
+			}
+			
+			let transposedCells = transpose(newCells);
+			for (let i = 0; i <= 17; i++) {
+				const row = transposedCells[i];
+				[0, 1, 2].forEach(n => {
+					let find = findSubarrays(row, 4, (el => el && el.color === n));
+					find.forEach((v, j) => found[j][i] = v ? 1 : found[j][i]);
+				});
+			}
+			
+			let destroyed = false;
+			
+			newCells.forEach((col, x) => {
+				col.forEach((cell, y) => {
+					if (cell && found[x][y] === 1) {
+						destroyed = true;
+					}
+				});
+			});
+			
+			if(!destroyed){
+				good = true;
+			}else{
+				console.log('DESTROYED');
+			}
+			
 		}
+		
+		this.cells = deepCopy(newCells);
+
 	}
 	
 	setupKeyboard() {
@@ -240,7 +288,7 @@ export default class Stage {
 	}
 	
 	movePillDown() {
-		if (!this.pill.control) return;
+		if (!this.pill?.control) return;
 		
 		clearInterval(this.pill.interval);
 		this.pill.control = false;

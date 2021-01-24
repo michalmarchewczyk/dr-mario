@@ -23,6 +23,18 @@ const create2dArray = (x, y) => {
     return new Array(x).fill(null).map(() => new Array(y).fill(null));
 }
 
+const deepCopy = (arr) => {
+    const copy = [];
+    arr.forEach(el => {
+        if (Array.isArray(el)) {
+            copy.push(deepCopy(el));
+        } else {
+            copy.push(el);
+        }
+    });
+    return copy;
+};
+
 const transpose = (array) => {
     return array[0].map((col, colIndex) => array.map(row => row[colIndex]));
 }
@@ -55,4 +67,5 @@ export {
     transpose,
     findSubarrays,
     create2dArray,
+    deepCopy,
 }
