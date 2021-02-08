@@ -1,0 +1,20 @@
+@import "./debug";
+@import "./main";
+
+.virusesContainer {
+  display: block;
+  position: absolute;
+  @include debug-outline;
+  width: 208px;
+  height: 192px;
+  left: 16px;
+  top: 192px;
+
+  .blVirus, .brVirus, .ylVirus {
+    display: block;
+    position: absolute;
+    width: 64px;
+    height: 48px;
+    @include pixelated;
+  }
+}

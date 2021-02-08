@@ -58,6 +58,14 @@ const findSubarrays = (array, min, filter) => {
     return res;
 }
 
+const rotateArray = (array, n) => {
+    let arr = deepCopy(array);
+    for (let i = 0; i < n; i++) {
+        arr.push(arr.shift());
+    }
+    return arr;
+}
+
 
 export {
     getRandomInteger,
@@ -68,4 +76,5 @@ export {
     findSubarrays,
     create2dArray,
     deepCopy,
+    rotateArray,
 }

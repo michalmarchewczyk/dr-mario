@@ -18,10 +18,11 @@ import Counter from '../utils/Counter';
 import speed_low from '../images/speed_low.png';
 import speed_med from '../images/speed_med.png';
 import speed_hi from '../images/speed_hi.png';
+import VirusAnimation from "./VirusAnimation";
 
 
 export default class Stage {
-	
+
 	constructor(id, num, speed, bg, bgImg, score, topScore, stageWin, stageLose) {
 		if (num > 96) {
 			throw new Error('Number of viruses cannot be bigger than 96');
@@ -80,6 +81,10 @@ export default class Stage {
 		this.scoreCounter = new Counter(7, this.baseScore + this.score);
 		this.scoreCounter.el.classList.add('scoreCounter');
 		this.container.appendChild(this.scoreCounter.render());
+
+		this.virusAnimation = new VirusAnimation();
+		this.container.appendChild(this.virusAnimation.render());
+
 	}
 	
 	render() {
@@ -185,6 +190,13 @@ export default class Stage {
 		}
 		
 		this.cells = deepCopy(newCells);
+
+
+		let brownViruses = this.cells.flat().filter(c => c?.type === 'virus' && c?.color === 0).length;
+		let blueViruses = this.cells.flat().filter(c => c?.type === 'virus' && c?.color === 1).length;
+		let yellowViruses = this.cells.flat().filter(c => c?.type === 'virus' && c?.color === 2).length;
+
+		this.virusAnimation.update({bl: blueViruses, br: brownViruses, yl: yellowViruses});
 
 	}
 	
@@ -647,6 +659,12 @@ export default class Stage {
 		this.virusCounter.set(this.viruses);
 		this.score = (this.num - this.viruses) * 100;
 		this.scoreCounter.set(this.baseScore + this.score);
+
+		let brownViruses = this.cells.flat().filter(c => c?.type === 'virus' && c?.color === 0).length;
+		let blueViruses = this.cells.flat().filter(c => c?.type === 'virus' && c?.color === 1).length;
+		let yellowViruses = this.cells.flat().filter(c => c?.type === 'virus' && c?.color === 2).length;
+
+		this.virusAnimation.update({bl: blueViruses, br: brownViruses, yl: yellowViruses});
 	}
 	
 	checkWin() {
@@ -677,6 +695,16 @@ export default class Stage {
 			this.drImage.style.backgroundImage = `url(${dr_go})`;
 			this.drImage.classList.add('drImageGO');
 			this.nextPill = null;
+
+			let brownViruses = this.cells.flat().filter(c => c?.type === 'virus' && c?.color === 0).length;
+			let blueViruses = this.cells.flat().filter(c => c?.type === 'virus' && c?.color === 1).length;
+			let yellowViruses = this.cells.flat().filter(c => c?.type === 'virus' && c?.color === 2).length;
+
+			this.virusAnimation.update({
+				bl: blueViruses > 0 ? -1 : 0,
+				br: brownViruses > 0 ? -1 : 0,
+				yl: yellowViruses > 0 ? -1 : 0,
+			});
 			
 			this.keyboardController.clearListeners();
 			this.keyboardController.addListener('Enter', 'up', () => {
