@@ -1,4 +1,4 @@
-const getRandomInteger = (min,max) => {
+const getRandomInteger = (min, max) => {
     return Math.round(Math.random() * (max - min)) + min;
 }
 
@@ -42,17 +42,17 @@ const transpose = (array) => {
 const findSubarrays = (array, min, filter) => {
     let res = new Array(array.length).fill(0);
     let current = [];
-    for(let i = 0; i < array.length; i++){
-        if(filter(array[i])) {
+    for (let i = 0; i < array.length; i++) {
+        if (filter(array[i])) {
             current.push(i);
-        }else{
-            if(current.length >= min){
+        } else {
+            if (current.length >= min) {
                 current.forEach(i => res[i] = 1)
             }
             current = [];
         }
     }
-    if(current.length >= min){
+    if (current.length >= min) {
         current.forEach(i => res[i] = 1)
     }
     return res;

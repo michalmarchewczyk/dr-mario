@@ -1,11 +1,11 @@
 export default class KeyboardController {
-    
+
     constructor(attach = document.body) {
         this.attach = attach;
         this.listeners = [];
         this.setup();
     }
-    
+
     setup() {
         this.attach.tabIndex = 0;
         this.attach.autofocus = true;
@@ -49,7 +49,7 @@ export default class KeyboardController {
                 });
         });
     }
-    
+
     addListener(key, type = 'down', callback) {
         this.listeners.push({
             key,
@@ -57,11 +57,11 @@ export default class KeyboardController {
             type
         });
     }
-    
-    clearListeners(){
+
+    clearListeners() {
         this.listeners = [];
     }
-    
+
     focus() {
         this.attach.focus();
     }

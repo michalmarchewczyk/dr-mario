@@ -1,11 +1,6 @@
 import '../styles/VirusAnimation.scss';
-import {rotateArray, deepCopy} from "../utils/utils";
+import {deepCopy, rotateArray} from "../utils/utils";
 
-// let imgUrls = [
-//     'bl1', 'bl2', 'bl3', 'bl4', 'bl5', 'bl6',
-//     'br1', 'br2', 'br3', 'br4', 'br5', 'br6',
-//     'yl1', 'yl2', 'yl3', 'yl4', 'yl5', 'yl6'
-// ];
 
 let imgUrls = [
     'bl', 'bl_dead', 'bl_lose',
@@ -22,79 +17,79 @@ imgUrls.forEach(img => {
 });
 
 let positions = [
-    {x: 5, y: 7}, // BLUE
-    {x: 1, y: 4}, // BROWN
-    {x: 6, y: 2}, // YELLOW
+    {x: 5, y: 7},
+    {x: 1, y: 4},
+    {x: 6, y: 2},
 
-    {x: 6, y: 7}, // BLUE
-    {x: 1, y: 5}, // BROWN
-    {x: 5, y: 2}, // YELLOW
+    {x: 6, y: 7},
+    {x: 1, y: 5},
+    {x: 5, y: 2},
 
-    {x: 7, y: 6}, // BLUE
-    {x: 2, y: 6}, // BROWN
-    {x: 4, y: 2}, // YELLOW
+    {x: 7, y: 6},
+    {x: 2, y: 6},
+    {x: 4, y: 2},
 
-    {x: 7, y: 5}, // BLUE
-    {x: 2, y: 7}, // BROWN
-    {x: 3, y: 2}, // YELLOW
+    {x: 7, y: 5},
+    {x: 2, y: 7},
+    {x: 3, y: 2},
 
-    {x: 7, y: 4}, // BLUE
-    {x: 3, y: 7}, // BROWN
-    {x: 2, y: 3}, // YELLOW
+    {x: 7, y: 4},
+    {x: 3, y: 7},
+    {x: 2, y: 3},
 
-    {x: 7, y: 3}, // BLUE
-    {x: 4, y: 7}, // BROWN
-    {x: 1, y: 4}, // YELLOW
-
-
-    {x: 6, y: 2}, // YELLOW
-    {x: 5, y: 7}, // BLUE
-    {x: 1, y: 4}, // BROWN
-
-    {x: 5, y: 2}, // YELLOW
-    {x: 6, y: 7}, // BLUE
-    {x: 1, y: 5}, // BROWN
-
-    {x: 4, y: 2}, // YELLOW
-    {x: 7, y: 6}, // BLUE
-    {x: 2, y: 6}, // BROWN
-
-    {x: 3, y: 2}, // YELLOW
-    {x: 7, y: 5}, // BLUE
-    {x: 2, y: 7}, // BROWN
-
-    {x: 2, y: 3}, // YELLOW
-    {x: 7, y: 4}, // BLUE
-    {x: 3, y: 7}, // BROWN
-
-    {x: 1, y: 4}, // YELLOW
-    {x: 7, y: 3}, // BLUE
-    {x: 4, y: 7}, // BROWN
+    {x: 7, y: 3},
+    {x: 4, y: 7},
+    {x: 1, y: 4},
 
 
-    {x: 1, y: 4}, // BROWN
-    {x: 6, y: 2}, // YELLOW
-    {x: 5, y: 7}, // BLUE
+    {x: 6, y: 2},
+    {x: 5, y: 7},
+    {x: 1, y: 4},
 
-    {x: 1, y: 5}, // BROWN
-    {x: 5, y: 2}, // YELLOW
-    {x: 6, y: 7}, // BLUE
+    {x: 5, y: 2},
+    {x: 6, y: 7},
+    {x: 1, y: 5},
 
-    {x: 2, y: 6}, // BROWN
-    {x: 4, y: 2}, // YELLOW
-    {x: 7, y: 6}, // BLUE
+    {x: 4, y: 2},
+    {x: 7, y: 6},
+    {x: 2, y: 6},
 
-    {x: 2, y: 7}, // BROWN
-    {x: 3, y: 2}, // YELLOW
-    {x: 7, y: 5}, // BLUE
+    {x: 3, y: 2},
+    {x: 7, y: 5},
+    {x: 2, y: 7},
 
-    {x: 3, y: 7}, // BROWN
-    {x: 2, y: 3}, // YELLOW
-    {x: 7, y: 4}, // BLUE
+    {x: 2, y: 3},
+    {x: 7, y: 4},
+    {x: 3, y: 7},
 
-    {x: 4, y: 7}, // BROWN
-    {x: 1, y: 4}, // YELLOW
-    {x: 7, y: 3}, // BLUE
+    {x: 1, y: 4},
+    {x: 7, y: 3},
+    {x: 4, y: 7},
+
+
+    {x: 1, y: 4},
+    {x: 6, y: 2},
+    {x: 5, y: 7},
+
+    {x: 1, y: 5},
+    {x: 5, y: 2},
+    {x: 6, y: 7},
+
+    {x: 2, y: 6},
+    {x: 4, y: 2},
+    {x: 7, y: 6},
+
+    {x: 2, y: 7},
+    {x: 3, y: 2},
+    {x: 7, y: 5},
+
+    {x: 3, y: 7},
+    {x: 2, y: 3},
+    {x: 7, y: 4},
+
+    {x: 4, y: 7},
+    {x: 1, y: 4},
+    {x: 7, y: 3},
 
 ]
 
@@ -142,9 +137,9 @@ class VirusAnimation {
         this.viruses = {bl, br, yl};
     }
 
-    rotate(){
+    rotate() {
 
-        if(Object.values(this.viruses).includes(-1)){
+        if (Object.values(this.viruses).includes(-1)) {
             return;
         }
 
@@ -161,27 +156,28 @@ class VirusAnimation {
         this.ylVirus.style.top = this.positions[2].y * 16 + 'px';
     }
 
-    animate(){
-        if(this.viruses.bl > 0){
+    animate() {
+        if (this.viruses.bl > 0) {
             this.blVirus.style.backgroundImage = `url(${imgs.bl})`;
-        }else if(this.viruses.bl === 0){
+        } else if (this.viruses.bl === 0) {
             this.blVirus.style.backgroundImage = `url(${imgs.bl_dead})`;
-        }else{
+        } else {
             this.blVirus.style.backgroundImage = `url(${imgs.bl_lose})`;
         }
 
-        if(this.viruses.br > 0){
+        if (this.viruses.br > 0) {
             this.brVirus.style.backgroundImage = `url(${imgs.br})`;
-        }else if(this.viruses.br === 0){
+        } else if (this.viruses.br === 0) {
             this.brVirus.style.backgroundImage = `url(${imgs.br_dead})`;
-        }else{
+        } else {
             this.brVirus.style.backgroundImage = `url(${imgs.br_lose})`;
         }
-        if(this.viruses.yl > 0){
+
+        if (this.viruses.yl > 0) {
             this.ylVirus.style.backgroundImage = `url(${imgs.yl})`;
-        }else if(this.viruses.yl === 0){
+        } else if (this.viruses.yl === 0) {
             this.ylVirus.style.backgroundImage = `url(${imgs.yl_dead})`;
-        }else{
+        } else {
             this.ylVirus.style.backgroundImage = `url(${imgs.yl_lose})`;
         }
 

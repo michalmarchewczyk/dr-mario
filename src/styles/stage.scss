@@ -36,6 +36,7 @@
 
     &.drImageGO {
       width: 112px;
+
       &::before {
         display: none;
       }
@@ -47,7 +48,6 @@
     display: block;
     top: 240px;
     left: 560px;
-    //background: blue;
   }
 
   .speedCounter {
@@ -92,15 +92,19 @@
     &.winPopup-1 {
       background-image: url("../images/sc1.png");
     }
+
     &.winPopup-2 {
       background-image: url("../images/sc2.png");
     }
+
     &.winPopup-3 {
       background-image: url("../images/sc3.png");
     }
+
     &.winPopup-4 {
       background-image: url("../images/sc4.png");
     }
+
     &.winPopup-5 {
       background-image: url("../images/sc5.png");
     }
@@ -117,15 +121,19 @@
     &.losePopup-1 {
       background-image: url("../images/go1.png");
     }
+
     &.losePopup-2 {
       background-image: url("../images/go2.png");
     }
+
     &.losePopup-3 {
       background-image: url("../images/go3.png");
     }
+
     &.losePopup-4 {
       background-image: url("../images/go4.png");
     }
+
     &.losePopup-5 {
       background-image: url("../images/go5.png");
     }
@@ -159,21 +167,26 @@
         &.virusBrown {
           background-image: url('../images/covid_brown.png');
         }
+
         &.virusBlue {
           background-image: url('../images/covid_blue.png');
         }
+
         &.virusYellow {
           background-image: url('../images/covid_yellow.png');
         }
       }
+
       &.virus.toDestroy {
 
         &.virusBrown {
           background-image: url('../images/br_x.png');
         }
+
         &.virusBlue {
           background-image: url('../images/bl_x.png');
         }
+
         &.virusYellow {
           background-image: url('../images/yl_x.png');
         }
@@ -186,63 +199,79 @@
 
         &.pillCellBrown {
           background-image: url('../images/br_dot.png');
+
           &.pillCellRight {
             background-image: url('../images/br_left.png');
           }
+
           &.pillCellLeft {
             background-image: url('../images/br_right.png');
           }
+
           &.pillCellUp {
             background-image: url('../images/br_down.png');
           }
+
           &.pillCellDown {
             background-image: url('../images/br_up.png');
           }
         }
+
         &.pillCellBlue {
           background-image: url('../images/bl_dot.png');
+
           &.pillCellRight {
             background-image: url('../images/bl_left.png');
           }
+
           &.pillCellLeft {
             background-image: url('../images/bl_right.png');
           }
+
           &.pillCellUp {
             background-image: url('../images/bl_down.png');
           }
+
           &.pillCellDown {
             background-image: url('../images/bl_up.png');
           }
         }
+
         &.pillCellYellow {
           background-image: url('../images/yl_dot.png');
+
           &.pillCellRight {
             background-image: url('../images/yl_left.png');
           }
+
           &.pillCellLeft {
             background-image: url('../images/yl_right.png');
           }
+
           &.pillCellUp {
             background-image: url('../images/yl_down.png');
           }
+
           &.pillCellDown {
             background-image: url('../images/yl_up.png');
           }
         }
+
         &.toDestroy {
           &.pillCellBrown {
             background-image: url('../images/br_o.png');
           }
+
           &.pillCellBlue {
             background-image: url('../images/bl_o.png');
           }
-          &.pillCellYellow{
+
+          &.pillCellYellow {
             background-image: url('../images/yl_o.png');
           }
         }
       }
     }
-
 
 
     .pillSprite {
@@ -262,39 +291,50 @@
         .pillPartBrown.pillPartA {
           background-image: url('../images/br_left.png');
         }
-        .pillPartBlue.pillPartA  {
+
+        .pillPartBlue.pillPartA {
           background-image: url('../images/bl_left.png');
         }
-        .pillPartYellow.pillPartA  {
+
+        .pillPartYellow.pillPartA {
           background-image: url('../images/yl_left.png');
         }
+
         .pillPartBrown.pillPartB {
           background-image: url('../images/br_right.png');
         }
-        .pillPartBlue.pillPartB  {
+
+        .pillPartBlue.pillPartB {
           background-image: url('../images/bl_right.png');
         }
-        .pillPartYellow.pillPartB  {
+
+        .pillPartYellow.pillPartB {
           background-image: url('../images/yl_right.png');
         }
       }
+
       &.pillTop {
         .pillPartBrown.pillPartA {
           background-image: url('../images/br_down.png');
         }
-        .pillPartBlue.pillPartA  {
+
+        .pillPartBlue.pillPartA {
           background-image: url('../images/bl_down.png');
         }
-        .pillPartYellow.pillPartA  {
+
+        .pillPartYellow.pillPartA {
           background-image: url('../images/yl_down.png');
         }
+
         .pillPartBrown.pillPartB {
           background-image: url('../images/br_up.png');
         }
-        .pillPartBlue.pillPartB  {
+
+        .pillPartBlue.pillPartB {
           background-image: url('../images/bl_up.png');
         }
-        .pillPartYellow.pillPartB  {
+
+        .pillPartYellow.pillPartB {
           background-image: url('../images/yl_up.png');
         }
       }
